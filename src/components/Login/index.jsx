@@ -16,8 +16,10 @@ const Login = () => {
         e.preventDefault()
         try {
             const url = "https://localhost:7241/api/Users/authenticate"
-            const { data: res } = await axios.post(url, data)
-            localStorage.setItem("token", res.data)
+            axios.post(url, data)
+                .then(res => {
+                    localStorage.setItem("token",res.data.token)
+                })
             window.location = "/"
         } catch (error) {
             if (
@@ -40,10 +42,10 @@ const Login = () => {
                             <h1>Login to Your Account</h1>
                             <input
                                 type="text"
-                                placeholder="Email"
+                                placeholder="username"
                                 name="Username"
                                 onChange={handleChange}
-                                value={data.email}
+                                value={data.Username}
                                 required
                                 className={styles.input}
                             />

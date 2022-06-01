@@ -6,10 +6,8 @@ import Navbar from "../Navbar";
 
 const Signup = () => {
     const [data, setData] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
+        Username: "",
+        Password: "",
     })
     const [error, setError] = useState("")
     const navigate = useNavigate()
@@ -19,7 +17,7 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const url = "http://localhost:8080/api/users"
+            const url = "https://localhost:7241/api/Users/createAccount"
             const { data: res } = await axios.post(url, data)
             navigate("/login")
             console.log(res.message)
@@ -54,34 +52,16 @@ const Signup = () => {
                         <input
                             type="text"
                             placeholder="First Name"
-                            name="firstName"
+                            name="Username"
                             onChange={handleChange}
                             value={data.firstName}
                             required
                             className={styles.input}
                         />
                         <input
-                            type="text"
-                            placeholder="Last Name"
-                            name="lastName"
-                            onChange={handleChange}
-                            value={data.lastName}
-                            required
-                            className={styles.input}
-                        />
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            name="email"
-                            onChange={handleChange}
-                            value={data.email}
-                            required
-                            className={styles.input}
-                        />
-                        <input
                             type="password"
                             placeholder="Password"
-                            name="password"
+                            name="Password"
                             onChange={handleChange}
                             value={data.password}
                             required
