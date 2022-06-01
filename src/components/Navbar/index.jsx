@@ -37,14 +37,12 @@ const navbar = () => {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
                         </Nav>
-                        <Nav.Link href="/account">Konto</Nav.Link>
                         <Nav className={styles.login}>
                             <Nav.Link onClick={action}>{getNameOfButton()}</Nav.Link>
                         </Nav>
                         <Nav className={styles.login}>
                             <Nav.Link onClick={actionAccount}>{getNameOfButtonAccount()}</Nav.Link>
                         </Nav>
-
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

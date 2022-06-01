@@ -4,7 +4,10 @@ import { Link } from "react-router-dom"
 import styles from "./styles.module.css"
 import Navbar from "../Navbar";
 const Login = () => {
-    const [data, setData] = useState({ email: "", password: "" })
+    const [data, setData] = useState({
+        Username: "",
+        Password: "",
+    })
     const [error, setError] = useState("")
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value })
@@ -12,10 +15,10 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const url = "http://localhost:8080/api/auth"
+            const url = "https://localhost:7241/api/Users/authenticate"
             const { data: res } = await axios.post(url, data)
             localStorage.setItem("token", res.data)
-            window.location = "/menu"
+            window.location = "/"
         } catch (error) {
             if (
                 error.response &&
@@ -36,9 +39,9 @@ const Login = () => {
                             onSubmit={handleSubmit}>
                             <h1>Login to Your Account</h1>
                             <input
-                                type="email"
+                                type="text"
                                 placeholder="Email"
-                                name="email"
+                                name="Username"
                                 onChange={handleChange}
                                 value={data.email}
                                 required
@@ -47,7 +50,7 @@ const Login = () => {
                             <input
                                 type="password"
                                 placeholder="Password"
-                                name="password"
+                                name="Password"
                                 onChange={handleChange}
                                 value={data.password}
                                 required
