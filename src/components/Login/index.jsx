@@ -16,11 +16,11 @@ const Login = () => {
         e.preventDefault()
         try {
             const url = "https://localhost:7241/api/Users/authenticate"
-            axios.post(url, data)
+            await axios.post(url, data)
                 .then(res => {
+                    console.log(res.data)
                     localStorage.setItem("token",res.data.token)
                 })
-            window.location = "/"
         } catch (error) {
             if (
                 error.response &&
@@ -30,6 +30,8 @@ const Login = () => {
                 setError(error.response.data.message)
             }
         }
+        if(localStorage.getItem("token")) window.location = ("/");
+
     }
     return (
     <div>
