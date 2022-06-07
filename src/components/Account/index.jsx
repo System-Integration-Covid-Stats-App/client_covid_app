@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button, Form, ListGroup} from "react-bootstrap";
 import { useState } from "react"
 import axios from "axios";
-import data from "bootstrap/js/src/dom/data";
 import styles from "./styles.module.css"
 
 const Account = () => {
@@ -33,7 +32,8 @@ const Account = () => {
                 console.log(err)
             })
     }
-    function deleteAccount(){
+    function deleteAccount(id){
+        console.log(id);
         let url = "https://localhost:7241/api/users/deleteAccount/" + id;
         axios
             .delete(url,{
@@ -42,11 +42,14 @@ const Account = () => {
                 }
             })
             .then(res => {
-                if(localStorage.getItem("token") != null){
-                    localStorage.removeItem("token")
+                if(role === "admin") window.location.reload()
+                if(role === "user"){
+                    if(localStorage.getItem("token") != null){
+                        localStorage.removeItem("token")
 
+                    }
+                    window.location = "/Login"
                 }
-                window.location = "/Login"
             })
             .catch(err=>{
                 console.log(err)
@@ -112,7 +115,7 @@ const Account = () => {
                     <Button type='button' variant="primary" onClick={updateUserData}>
                         Edytuj dane
                     </Button><br/><br/>
-                    <Button type='button' variant="danger" onClick={deleteAccount}>
+                    <Button type='button' variant="danger" onClick={() =>deleteAccount(id)}>
                         Usuń konto
                     </Button>
                 </Form>
@@ -124,20 +127,20 @@ const Account = () => {
                     {
                         users.map(function (item,index){
                             return(
-                                <div key={index}>
+                                <div key={index} className={styles.container}>
                                     <ListGroup as="ol" numbered>
                                         <ListGroup.Item variant="dark">
                                             <p>Id: {item.userId}</p>
                                             <p>Login: {item.username}</p>
                                             <p>Email: {item.email}</p>
-                                            <Button type='button' variant="danger" onClick={deleteAccount}>
+                                            <Button type='button' variant="danger" onClick={() => deleteAccount(item.userId)}>
                                                 Usuń konto
                                             </Button>
                                         </ListGroup.Item>
                                     </ListGroup>
+                                    <br/>
                                 </div>
                             )
-
                         })
                     }
                 </div>
