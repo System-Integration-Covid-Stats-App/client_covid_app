@@ -8,6 +8,7 @@ const Signup = () => {
     const [data, setData] = useState({
         Username: "",
         Password: "",
+        Email: ""
     })
     const [error, setError] = useState("")
     const navigate = useNavigate()
@@ -64,6 +65,15 @@ const Signup = () => {
                             name="Password"
                             onChange={handleChange}
                             value={data.password}
+                            required
+                            className={styles.input}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Email"
+                            name="Email"
+                            onChange={handleChange}
+                            value={data.email}
                             required
                             className={styles.input}
                         />

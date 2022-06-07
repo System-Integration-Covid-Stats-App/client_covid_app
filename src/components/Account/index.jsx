@@ -1,46 +1,47 @@
 import React, {useEffect} from "react";
 import Navbar from "../Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, ListGroup} from "react-bootstrap";
 import { useState } from "react"
 import axios from "axios";
 import data from "bootstrap/js/src/dom/data";
 import styles from "./styles.module.css"
 
 const Account = () => {
-    const [firstName, setName] = useState({
-        firstName: "",
-    })
-    const [lastName, setLastName] = useState({
-        lastName: "",
+    const [username, setName] = useState({
+        username: "",
     })
     const [email, setEmail] = useState({
         email: ""
     })
+    const [users, setUsers] = useState([])
     let decodeToke = parseJwt(localStorage.getItem("token"))
-    let id = decodeToke._id;
-
+    let id = decodeToke.id;
+    let role = decodeToke.role;
     function updateUserData() {
-        let url = "http://localhost:8080/api/users/update/" + id;
+        let url = "https://localhost:7241/api/users/updateAccount/" + id;
         axios
             .patch(url,{
-                firstName:firstName,
-                lastName:lastName,
-                email:email,
-            })
-            .then(res => {
-                console.log(res)
+                Username:username,
+                Email:email,
+            }, {
+                'headers': {
+                    'Authorization': 'Bearer ' + localStorage.getItem("token")
+                }
             })
             .catch(err=>{
                 console.log(err)
             })
     }
     function deleteAccount(){
-        let url = "http://localhost:8080/api/users/delete/" + id;
+        let url = "https://localhost:7241/api/users/deleteAccount/" + id;
         axios
-            .patch(url)
+            .delete(url,{
+                'headers': {
+                    'Authorization': 'Bearer ' + localStorage.getItem("token")
+                }
+            })
             .then(res => {
-                console.log(res)
                 if(localStorage.getItem("token") != null){
                     localStorage.removeItem("token")
 
@@ -53,34 +54,52 @@ const Account = () => {
 
     }
     useEffect(() => {
-        let url = "http://localhost:8080/api/users/" + id;
-        axios
-            .get(url)
-            .then(res => {
-                setName(res.data.firstName)
-                setLastName(res.data.lastName)
-                setEmail(res.data.email)
-            })
-            .catch(err=>{
-                console.log(err)
-            })
+        if(role === "user"){
+            let url = "https://localhost:7241/api/Users/user/" + id;
+            axios
+                .get(url, {
+                    'headers': {
+                        'Authorization': 'Bearer ' + localStorage.getItem("token")
+                    }
+                })
+                .then(res => {
+                    setName(res.data.username)
+                    setEmail(res.data.email)
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+        }
+    },[])
+    useEffect(() => {
+        if(role === "admin"){
+            let url = "https://localhost:7241/api/Admin/users";
+            axios
+                .get(url, {
+                    'headers': {
+                        'Authorization': 'Bearer ' + localStorage.getItem("token")
+                    }
+                })
+                .then(res => {
+                    console.log(res.data)
+                    setUsers(res.data)
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+        }
     },[])
 
 
     return (
-
         <div >
             <Navbar/>
-            <h1>Twoje dane</h1>
-            {data &&
+            { role === "user" &&
             <Form className={styles.container}>
+                <h1>Twoje dane</h1>
                     <Form.Group className="mb-3" controlId="formBasicName">
-                        <Form.Label>Imię</Form.Label>
-                        <Form.Control type="text" value={firstName} onChange={(e) => setName(e.target.value)}/>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicLastName">
-                        <Form.Label>Nazwisko</Form.Label>
-                        <Form.Control type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}/>
+                        <Form.Label>Login</Form.Label>
+                        <Form.Control type="text" value={username} onChange={(e) => setName(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
@@ -89,9 +108,7 @@ const Account = () => {
                             We'll never share your email with anyone else.
                         </Form.Text>
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Check me out"/>
-                    </Form.Group>
+
                     <Button type='button' variant="primary" onClick={updateUserData}>
                         Edytuj dane
                     </Button><br/><br/>
@@ -99,6 +116,31 @@ const Account = () => {
                         Usuń konto
                     </Button>
                 </Form>
+            },
+            {
+                role === "admin" &&
+                <div>
+                    <h1>Dane użytkowników</h1>
+                    {
+                        users.map(function (item,index){
+                            return(
+                                <div key={index}>
+                                    <ListGroup as="ol" numbered>
+                                        <ListGroup.Item variant="dark">
+                                            <p>Id: {item.userId}</p>
+                                            <p>Login: {item.username}</p>
+                                            <p>Email: {item.email}</p>
+                                            <Button type='button' variant="danger" onClick={deleteAccount}>
+                                                Usuń konto
+                                            </Button>
+                                        </ListGroup.Item>
+                                    </ListGroup>
+                                </div>
+                            )
+
+                        })
+                    }
+                </div>
             }
         </div>
 

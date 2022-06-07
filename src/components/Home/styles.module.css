@@ -1,24 +1,59 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 .sect1 {
-    height:93.5vh;
     color: #fff;
-    background-size: 100vw 100vh;
+    background-color: #252323;
 }
 h1{
     font-size: 3vw;
     padding-bottom: 1vw;
 }
 .container{
-    position: absolute;
-    top:24%;
-    left: 14.5%;
+    width: 50vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2vw;
+    text-align: center;
+}
+
+.container select{
+    margin-bottom: 2vw;
 }
 .description{
-    font-family: Arial;
-    line-height: 35px;
-    font-family: Amiri;
-    position: absolute;
-    letter-spacing: 5px;
     display: flex;
-    width: 470px;
-    font-size: 1.4vw;
+    justify-content: center;
+    margin-top: 1vw;
+    font-weight: lighter;
+}
+
+.square{
+    text-align: center;
+    width: 130px;
+    font-size: 12px;
+    height: 20px;
+    background-color: #32CD32;
+}
+.square2{
+    text-align: center;
+    width: 130px;
+    font-size: 12px;
+    height: 20px;
+    background-color: #FF4500;
+
+}
+select {
+    background-color: #242036;
+    padding: 0 1em 0 0;
+    font-size: 9px;
+    color: white;
+    font-weight: lighter;
+    border: 0px;
+    outline: 0px;
+}
+
+select::-ms-expand {
+    display: none;
 }
