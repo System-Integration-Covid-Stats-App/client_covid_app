@@ -15,7 +15,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const url = "https://localhost:7241/api/Users/authenticate"
+            const url = "http://localhost:7241/api/Users/authenticate"
             await axios.post(url, data)
                 .then(res => {
                     console.log(res.data)

@@ -18,7 +18,7 @@ const Account = () => {
     let id = decodeToke.id;
     let role = decodeToke.role;
     function updateUserData() {
-        let url = "https://localhost:7241/api/users/updateAccount/" + id;
+        let url = "http://localhost:7241/api/users/updateAccount/" + id;
         axios
             .patch(url,{
                 Username:username,
@@ -34,7 +34,7 @@ const Account = () => {
     }
     function deleteAccount(id){
         console.log(id);
-        let url = "https://localhost:7241/api/users/deleteAccount/" + id;
+        let url = "http://localhost:7241/api/users/deleteAccount/" + id;
         axios
             .delete(url,{
                 'headers': {
@@ -58,7 +58,7 @@ const Account = () => {
     }
     useEffect(() => {
         if(role === "user"){
-            let url = "https://localhost:7241/api/Users/user/" + id;
+            let url = "http://localhost:7241/api/Users/user/" + id;
             axios
                 .get(url, {
                     'headers': {
@@ -76,7 +76,7 @@ const Account = () => {
     },[])
     useEffect(() => {
         if(role === "admin"){
-            let url = "https://localhost:7241/api/Admin/users";
+            let url = "http://localhost:7241/api/Admin/users";
             axios
                 .get(url, {
                     'headers': {

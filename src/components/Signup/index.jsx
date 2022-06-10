@@ -18,7 +18,7 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const url = "https://localhost:7241/api/Users/createAccount"
+            const url = "http://localhost:7241/api/Users/createAccount"
             const { data: res } = await axios.post(url, data)
             navigate("/login")
             console.log(res.message)

@@ -10,7 +10,7 @@ const Home = () => {
     )
     useEffect((e)=> {
         try {
-            const url = "https://localhost:7241/api/data/deathsBeforeCovid"
+            const url = "http://localhost:7241/api/data/deathsBeforeCovid"
             axios.get(url)
                 .then(res => {
                     setDataBeforeCovid(res.data)
@@ -21,7 +21,7 @@ const Home = () => {
     },[]);
     useEffect((e)=> {
         try {
-            const url = "https://localhost:7241/api/data/deathsWhileCovid"
+            const url = "http://localhost:7241/api/data/deathsWhileCovid"
             axios.get(url)
                 .then(res => {
                     setDataWhileCovid(res.data)

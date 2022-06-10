@@ -9,7 +9,7 @@ const Home = () => {
     const [error, setError] = useState("")
     useEffect((e)=> {
         try {
-            const url = "https://localhost:7241/api/Data/stats"
+            const url = "http://localhost:7241/api/Data/stats"
             axios.get(url)
                 .then(res => {
                     setData(res.data)

@@ -10,7 +10,7 @@ const Home = () => {
     const [error, setError] = useState("")
     useEffect((e)=> {
         try {
-            const url = "https://localhost:7241/api/Data/flu"
+            const url = "http://localhost:7241/api/Data/flu"
             axios.get(url)
                 .then(res => {
                     setData(res.data)
